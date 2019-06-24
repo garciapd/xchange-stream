@@ -12,10 +12,8 @@ import si.mazi.rescu.RestProxyFactory;
 
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.binance.BinanceExchange;
-import org.knowm.xchange.binance.service.BinanceAccountService;
 import org.knowm.xchange.binance.service.BinanceMarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.exceptions.ExchangeSecurityException;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +49,7 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
      * connection pass a `ProductSubscription` in at connection time.
      *
      * @param args A single `ProductSubscription` to define the subscriptions required to be available during this connection.
-     * @return
+     * @return A completable which fulfils once connection is complete.
      */
     @Override
     public Completable connect(ProductSubscription... args) {
@@ -73,8 +71,9 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
 
         if (subscriptions.hasAuthenticated()) {
             if (exchangeSpecification.getApiKey() == null) {
-                throw new ExchangeSecurityException("Cannot subscribe to authenticated streams without API key");
+                throw new IllegalArgumentException("API key required for authenticated streams");
             }
+
             LOG.info("Connecting to authenticated web socket");
             BinanceAuthenticated binance = RestProxyFactory.createProxy(
                 BinanceAuthenticated.class,
@@ -90,12 +89,12 @@ public class BinanceStreamingExchange extends BinanceExchange implements Streami
         }
 
         streamingMarketDataService = new BinanceStreamingMarketDataService(streamingService, (BinanceMarketDataService) marketDataService, onApiCall);
-        streamingAccountService = new BinanceStreamingAccountService(userDataStreamingService, (BinanceAccountService) accountService, onApiCall);
+        streamingAccountService = new BinanceStreamingAccountService(userDataStreamingService);
         streamingTradeService = new BinanceStreamingTradeService(userDataStreamingService);
 
         return Completable.concat(completables)
             .doOnComplete(() -> streamingMarketDataService.openSubscriptions(subscriptions))
-            .doOnComplete(() -> streamingAccountService.openSubscriptions(subscriptions))
+            .doOnComplete(() -> streamingAccountService.openSubscriptions())
             .doOnComplete(() -> streamingTradeService.openSubscriptions());
     }
 

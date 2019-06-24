@@ -9,12 +9,13 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TimeZone;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductBook;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductStats;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProProductTicker;
 import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProTrade;
 import org.knowm.xchange.coinbasepro.dto.trade.CoinbaseProFill;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Domain object mapping a CoinbasePro web socket message.
