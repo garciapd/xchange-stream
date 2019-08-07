@@ -3,11 +3,12 @@ package info.bitrich.xchangestream.coinbasepro;
 import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 import info.bitrich.xchangestream.core.ProductSubscription;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CoinbaseProManualExample {
     private static final Logger LOG = LoggerFactory.getLogger(CoinbaseProManualExample.class);

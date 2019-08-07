@@ -138,10 +138,10 @@ public class CoinbaseProWebSocketSubscriptionMessage {
         this.channels = channels.toArray(new CoinbaseProProductSubsctiption[channels.size()]);
 
         if ( authData != null ) {
-	        this.key = authData.getKey();
-	        this.passphrase = authData.getPassphrase();
-	        this.signature = authData.getSignature();
-	        this.timestamp = String.valueOf(authData.getTimestamp());
+            this.key = authData.getKey();
+            this.passphrase = authData.getPassphrase();
+            this.signature = authData.getSignature();
+            this.timestamp = String.valueOf(authData.getTimestamp());
         }
     }
 
